@@ -1,0 +1,7 @@
+<suite name="Todos">
+    <test name="Regression">
+        <classes>
+            <class name="testcases.TodoMVC"/>
+        </classes>
+    </test>
+</suite>
