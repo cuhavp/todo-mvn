@@ -44,6 +44,7 @@
             <configuration>
                 <suiteXmlFiles>
                     <suiteXmlFile>src/test/resources/testsuite.xml</suiteXmlFile>
+                    <suiteXmlFile>src/test/resources/todo-suite.xml</suiteXmlFile>
                 </suiteXmlFiles>
             </configuration>
         </plugin>
