@@ -10,17 +10,29 @@ import java.util.stream.Collectors;
 
 public class Todos {
     private Browser browser;
+    private final String BASE_URL="http://todomvc.com/examples/vanillajs";
+    private final By newTodoTxt = By.className("new-todo");
+    private final By todosLeftLbl = By.cssSelector(".todo-count > strong");
+    private final By editTodoBtn = By.cssSelector("input.edit");
+    private final By removeTodoBtn = By.cssSelector("button.destroy");
+    private final By completeTodoBtn = By.cssSelector("input.toggle");
+    private final By markCompleteAllBtn = By.className("toggle-all");
+    private final By activeTab  =By.cssSelector("a[href='#/active']");
+    private final By completedTab  =By.cssSelector("a[href='#/completed']");
+    private final By clearCompletedBtn = By.className("clear-completed");
+    private final By todosLbl = By.cssSelector(".todo-list li");
+
 
     public Todos(Browser browser) {
         this.browser = browser;
     }
 
     public void navigateTo() {
-        browser.open("http://todomvc.com/examples/vanillajs");
+        browser.open(BASE_URL);
     }
 
     public void createTodo(String todoName) {
-        browser.type(By.className("new-todo"), todoName + Keys.ENTER);
+        browser.type(newTodoTxt, todoName + Keys.ENTER);
     }
 
     public void createTodos(String... todoNames) {
@@ -30,7 +42,7 @@ public class Todos {
     }
 
     public int getTodosLeft() {
-        return Integer.parseInt(browser.find(By.cssSelector(".todo-count > strong")).getText());
+        return Integer.parseInt(browser.find(todosLeftLbl).getText());
     }
 
     public boolean todoExists(String todoName) {
@@ -52,7 +64,7 @@ public class Todos {
         WebElement todoToEdit = getTodoElementByName(todoName);
         browser.doubleClick(todoToEdit);
 
-        WebElement todoEditInput = browser.find(By.cssSelector("input.edit"), todoToEdit);
+        WebElement todoEditInput = browser.find(editTodoBtn, todoToEdit);
         browser.executeScript("arguments[0].value = ''", todoEditInput);
 
         browser.type(todoEditInput, newTodoName + Keys.ENTER);
@@ -61,32 +73,32 @@ public class Todos {
     public void removeTodo(String todoName) {
         WebElement todoToRemove = getTodoElementByName(todoName);
         browser.moveToElement(todoToRemove);
-        browser.click(By.cssSelector("button.destroy"), todoToRemove);
+        browser.click(removeTodoBtn, todoToRemove);
     }
 
     public void completeTodo(String todoName) {
         WebElement todoToComplete = getTodoElementByName(todoName);
-        browser.click(By.cssSelector("input.toggle"), todoToComplete);
+        browser.click(completeTodoBtn, todoToComplete);
     }
 
     public void completeAllTodos() {
-        browser.click(By.className("toggle-all"));
+        browser.click(markCompleteAllBtn);
     }
 
     public void showActive() {
-        browser.click(By.cssSelector("a[href='#/active']"));
+        browser.click(activeTab);
     }
 
     public void showCompleted() {
-        browser.click(By.cssSelector("a[href='#/completed']"));
+        browser.click(completedTab);
     }
 
     public void clearCompleted() {
-        browser.click(By.className("clear-completed"));
+        browser.click(clearCompletedBtn);
     }
 
     private List<WebElement> getTodoElements() {
-        return browser.findAll(By.cssSelector(".todo-list li"));
+        return browser.findAll(todosLbl);
     }
 
     private WebElement getTodoElementByName(String todoName) {

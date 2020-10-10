@@ -28,7 +28,7 @@ public class Browser {
     }
 
     public void open(String url) {
-        driver.get("http://todomvc.com/examples/vanillajs");
+        driver.get(url);
     }
 
     public void quit() {
